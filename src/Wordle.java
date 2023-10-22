@@ -221,39 +221,25 @@ public class Wordle extends JFrame implements ActionListener {
     // Actions to perform when the game is won
     private void gameWon() {
         JOptionPane.showMessageDialog(this, "Congratulations, you guessed the word in " + gameSeconds + " seconds!");
-        askToPlayAgain();
+        System.exit(0);  // Close the application
     }
+
 
     // Actions to perform when the game is lost
     private void gameLost() {
         JOptionPane.showMessageDialog(this, "Sorry, you didn't guess the word. The word was: " + wordleWord);
-        askToPlayAgain();
+        System.exit(0);  // Close the application
     }
 
-    // Prompt the user to play again or exit the game
-    private void askToPlayAgain() {
-        int reply = JOptionPane.showConfirmDialog(this, "Do you want to play again?", "Play Again?", JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION) {
-            currentRow = 0;
-            currentIndex = 0;
-            resetGame();
-        } else {
-            System.exit(0);
+    // Separate class to ensure only one character can be entered into the JTextField
+    class SingleCharDocument extends PlainDocument {
+        @Override
+        public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+            if (str != null && str.length() > 1) {
+                str = str.substring(0, 1);
+            }
+            super.insertString(offs, str, a);
         }
-    }
-
-    // Reset the game state to its initial configuration
-    private void resetGame() {
-        currentRow = 0;
-        currentIndex = 0;
-        for (JTextField field : inputField) {
-            field.setText("");
-            field.setBackground(Color.white);
-            field.setEditable(false);
-        }
-        enableRow(currentRow);
-        inputField[currentIndex].requestFocus();
-        gameSeconds = 0;
     }
 
     // Main method to launch the game
@@ -267,13 +253,3 @@ public class Wordle extends JFrame implements ActionListener {
     }
 }
 
-// Separate class to ensure only one character can be entered into the JTextField
-class SingleCharDocument extends PlainDocument {
-    @Override
-    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-        if (str != null && str.length() > 1) {
-            str = str.substring(0, 1);
-        }
-        super.insertString(offs, str, a);
-    }
-}
