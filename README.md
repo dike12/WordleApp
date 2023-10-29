@@ -52,4 +52,7 @@ Here's a glimpse of what the game looks like in action:
 
 Feel free to fork this project and enhance the features. Pull requests are welcome!
 
+### **Contact**
+GitHub: dike12
+
 ---
